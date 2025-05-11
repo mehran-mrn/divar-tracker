@@ -1,7 +1,7 @@
 name: Divar Scraper
 on:
   schedule:
-    - cron: "*/59 * * * *"
+    - cron: "29 * * * *"
   workflow_dispatch:  
 
 jobs:
