@@ -56,13 +56,8 @@ def send_telegram(message, photo_url=None):
                 caption=message,
                 parse_mode="MarkdownV2"
             )
-        else:
-            bot.send_message(
-                chat_id=CHAT_ID,
-                text=message,
-                parse_mode="MarkdownV2"
-            )
             
+        bot.send_message(chat_id=CHAT_ID, text=message)
     except TelegramError as e:
         print(f"Error sending message: {e}")
 
