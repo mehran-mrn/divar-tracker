@@ -8,6 +8,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from telegram import Bot
 from telegram.error import TelegramError
+from telegram.utils.helpers import escape_markdown
 
 # تنظیمات تلگرام
 TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
@@ -53,11 +54,16 @@ def send_telegram(message, photo_url=None):
             bot.send_photo(
                 chat_id=CHAT_ID,
                 photo=photo_url,
-                caption=message,
+                caption=escape_markdown(message, version=2),
+                parse_mode="MarkdownV2"
+            )
+        else:
+            bot.send_message(
+                chat_id=CHAT_ID,
+                text=escape_markdown(message, version=2),
                 parse_mode="MarkdownV2"
             )
             
-        bot.send_message(chat_id=CHAT_ID, text=message)
     except TelegramError as e:
         print(f"Error sending message: {e}")
 
