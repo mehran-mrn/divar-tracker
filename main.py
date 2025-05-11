@@ -81,7 +81,7 @@ def scrape_ads():
                 price = ad.find_element(By.CSS_SELECTOR, PRICE_SELECTOR).text
                 
                 # ارسال پیام
-                message = f"\n {title} \n \n 🏠 {price} \n \n 🔗 {link}"
+                message = f"\n 🏠 {title} \n \n 💰 {price} \n \n 🔗 {link}"
                 send_telegram(message)
                 new_ads.append(ad_id)
                 
