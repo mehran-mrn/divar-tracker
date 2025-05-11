@@ -1,8 +1,8 @@
 name: Divar Scraper
 on:
   schedule:
-    - cron: "0 */2 * * *"  # هر 2 ساعت یکبار اجرا شود
-  workflow_dispatch:  # امکان اجرای دستی
+    - cron: "5 * * * *"  
+  workflow_dispatch:  
 
 jobs:
   scrape:
