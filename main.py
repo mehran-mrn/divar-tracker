@@ -4,6 +4,9 @@ from telegram import Bot
 TOKEN = os.getenv("TELEGRAM_TOKEN") 
 CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
 
+print(f"TOKEN موجود است؟ {'بله' if TOKEN else 'خیر'}")
+print(f"CHAT_ID: {CHAT_ID}")
+
 def send_test():
     try:
         bot = Bot(token=TOKEN)
