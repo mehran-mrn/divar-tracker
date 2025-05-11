@@ -1,9 +1,8 @@
 import os
 from telegram import Bot
 
-# دریافت توکن و چت آیدی از محیط
-TOKEN = os.getenv("7758220854:AAFVjFJJNTGwIKGl72hZpMCcVSa1xqO68_s")
-CHAT_ID = os.getenv("90476610")
+TOKEN = os.getenv("TELEGRAM_TOKEN") 
+CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
 
 def send_test():
     try:
