@@ -2,9 +2,10 @@ import os
 from telegram import Bot
 
 # دریافت توکن و چت آیدی از محیط
-TOKEN = os.getenv("7758220854:AAFVjFJJNTGwIKGl72hZpMCcVSa1xqO68_s")
-CHAT_ID = "90476610"  # چت آیدی شما
-
+TOKEN = os.getenv("7758220854:AAFVjFJJNTGwIKGl72hZpMCcVSa1xqO68_s")  # نام متغیر محیطی باید TELEGRAM_TOKEN باشد
+CHAT_ID = os.getenv("90476610"
+                    
+                    
 def send_test():
     try:
         bot = Bot(token=TOKEN)
@@ -18,3 +19,5 @@ def send_test():
 
 if __name__ == "__main__":
     send_test()
+    
+  
