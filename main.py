@@ -72,7 +72,8 @@ def scrape_ads():
             link_element = ad.find_element(By.CSS_SELECTOR, LINK_SELECTOR)
             link = link_element.get_attribute("href")
             ad_id = link.split("/")[-1]  # استخراج آیدی از لینک
-            
+            short_link = f"https://divar.ir/v/{ad_id}"  # ساخت لینک کوتاه
+
             if ad_id not in existing_ads:
                 # استخراج عنوان
                 title = ad.find_element(By.CSS_SELECTOR, TITLE_SELECTOR).text
@@ -81,7 +82,11 @@ def scrape_ads():
                 price = ad.find_element(By.CSS_SELECTOR, PRICE_SELECTOR).text
                 
                 # ارسال پیام
-                message = f"\n🏠 {title} \n \n💰 {price} \n \n🔗 {link}"
+                message = f"""
+                🏠 {title}
+                💰 {price}
+                🔗 {short_link}
+                """
                 send_telegram(message)
                 new_ads.append(ad_id)
                 
