@@ -20,6 +20,7 @@ ITEM_SELECTOR = "article.unsafe-kt-post-card"
 LINK_SELECTOR = "a.unsafe-kt-post-card__action"  # انتخاب لینک آگهی
 TITLE_SELECTOR = "h2.unsafe-kt-post-card__title"  # انتخاب عنوان
 PRICE_SELECTOR = "div.unsafe-kt-post-card__description"  # انتخاب قیمت
+IMAGE_SELECTOR = "img.kt-image-block__image"  # انتخاب تصویر
 
 def init_driver():
     chrome_options = Options()
@@ -45,10 +46,23 @@ def save_history(ads):
     with open("ads_history.json", "w") as f:
         json.dump(ads, f)
 
-def send_telegram(message):
+def send_telegram(message, photo_url=None):
     try:
         bot = Bot(token=TELEGRAM_TOKEN)
-        bot.send_message(chat_id=CHAT_ID, text=message)
+        if photo_url:
+            bot.send_photo(
+                chat_id=CHAT_ID,
+                photo=photo_url,
+                caption=message,
+                parse_mode="MarkdownV2"
+            )
+        else:
+            bot.send_message(
+                chat_id=CHAT_ID,
+                text=message,
+                parse_mode="MarkdownV2"
+            )
+            
     except TelegramError as e:
         print(f"Error sending message: {e}")
 
@@ -75,15 +89,24 @@ def scrape_ads():
             short_link = f"https://divar.ir/v/{ad_id}"  # ساخت لینک کوتاه
 
             if ad_id not in existing_ads:
-                # استخراج عنوان
                 title = ad.find_element(By.CSS_SELECTOR, TITLE_SELECTOR).text
-                
-                # استخراج قیمت
                 price = ad.find_element(By.CSS_SELECTOR, PRICE_SELECTOR).text
-                
+                # استخراج تصویر با اولویت data-src (برای Lazy Load)
+                try:
+                    img_element = ad.find_element(By.CSS_SELECTOR, IMAGE_SELECTOR)
+                    image_url = img_element.get_attribute("data-src") or img_element.get_attribute("src")
+                except:
+                    image_url = None
+
+                    
                 # ارسال پیام
                 message = f"🏠 {title}\n\n💰 {price}\n\n🔗 {short_link}"
-                send_telegram(message)
+                                    
+                if image_url:
+                    send_telegram(message, image_url)
+                else:
+                    send_telegram(message)
+                    
                 new_ads.append(ad_id)
                 
         except Exception as e:
