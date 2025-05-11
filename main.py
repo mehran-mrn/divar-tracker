@@ -55,9 +55,7 @@ def send_telegram(message):
 def scrape_ads():
     driver = init_driver()
     driver.get(TARGET_URL)
-    container = WebDriverWait(driver, 20).until(
-    EC.presence_of_element_located((By.CSS_SELECTOR, CONTAINER_SELECTOR))
-)
+    container = WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.CSS_SELECTOR, CONTAINER_SELECTOR)))
 
     # انتخاب کانتینر اصلی
     container = driver.find_element(By.CSS_SELECTOR, CONTAINER_SELECTOR)
