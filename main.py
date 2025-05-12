@@ -22,6 +22,7 @@ LINK_SELECTOR = "a.unsafe-kt-post-card__action"  # انتخاب لینک آگه�
 TITLE_SELECTOR = "h2.unsafe-kt-post-card__title"  # انتخاب عنوان
 PRICE_SELECTOR = "div.unsafe-kt-post-card__description"  # انتخاب قیمت
 IMAGE_SELECTOR = "img.kt-image-block__image"  # انتخاب تصویر
+EXTRA_INFO_SELECTOR = "div.unsafe-kt-post-card__bottom"  # انتخاب توضیحات اضافی
 
 def init_driver():
     chrome_options = Options()
@@ -92,6 +93,14 @@ def scrape_ads():
             if ad_id not in existing_ads:
                 title = ad.find_element(By.CSS_SELECTOR, TITLE_SELECTOR).text
                 price = ad.find_element(By.CSS_SELECTOR, PRICE_SELECTOR).text
+                
+                extra_info = ""
+                try:
+                    extra_element = ad.find_element(By.CSS_SELECTOR, EXTRA_INFO_SELECTOR)
+                    extra_info = "\n\n" + extra_element.text.replace('\n', ' • ')
+                except:
+                    pass
+                
                 # استخراج تصویر با اولویت data-src (برای Lazy Load)
                 try:
                     img_element = ad.find_element(By.CSS_SELECTOR, IMAGE_SELECTOR)
@@ -101,7 +110,7 @@ def scrape_ads():
 
                     
                 # ارسال پیام
-                message = f"🏠 {title}\n\n💰 {price}\n\n🔗 {short_link}"
+                message = f"🏠 {title}\n\n💰 {price}\n\n {extra_info}\n\n🔗 {short_link}"
                                     
                 if image_url:
                     send_telegram(message, image_url)
